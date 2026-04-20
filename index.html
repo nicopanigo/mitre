@@ -1,66 +1,390 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <title>Mitre Futbol 5</title>
     <link rel="icon" href="img/logo-Photoroom.png" type="image/png">
+    <style>
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            height: 92vh;
+            min-height: 520px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('img/cancha desde abajo.jpeg');
+            background-size: cover;
+            background-position: center 30%;
+            transform: scale(1.05);
+            animation: zoomOut 8s ease forwards;
+        }
+        @keyframes zoomOut {
+            from { transform: scale(1.05); }
+            to   { transform: scale(1); }
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.82) 30%, rgba(0,0,0,0.2) 70%, transparent 100%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 5% 5%;
+            animation: fadeUp 1s ease 0.3s both;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero-badge {
+            display: inline-block;
+            background: #0098DB;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 3px;
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(52px, 10vw, 100px);
+            color: #fff;
+            line-height: 0.95;
+            margin: 0 0 20px;
+            letter-spacing: 0.02em;
+        }
+        .hero h1 span { color: #0098DB; }
+        .hero-btns {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            display: inline-block;
+            background: #0098DB;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 14px 32px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .btn-primary:hover { background: #007bb5; transform: translateY(-2px); }
+        .btn-ghost {
+            display: inline-block;
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.5);
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 12px 28px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: border-color 0.2s, transform 0.15s;
+        }
+        .btn-ghost:hover { border-color: #fff; transform: translateY(-2px); }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            background: #0b0a0a;
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            flex: 1;
+            min-width: 160px;
+            max-width: 240px;
+            text-align: center;
+            padding: 22px 20px;
+            border-right: 1px solid rgba(255,255,255,0.08);
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 38px;
+            color: #0098DB;
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* ── SECCIONES ── */
+        .section { padding: 70px 5%; }
+        .section-dark { background: #111; color: #fff; }
+        .section-light { background: #f4f4f4; }
+
+        .section-tag {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #0098DB;
+            margin-bottom: 10px;
+        }
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(36px, 5vw, 56px);
+            line-height: 1;
+            margin: 0 0 40px;
+            letter-spacing: 0.02em;
+        }
+        .section-dark .section-title { color: #fff; }
+        .section-light .section-title { color: #0b0a0a; }
+
+        /* ── SERVICIOS ── */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2px;
+            background: #222;
+        }
+        .service-card {
+            background: #1a1a1a;
+            padding: 36px 28px;
+            transition: background 0.2s;
+        }
+        .service-card:hover { background: #202020; }
+        .service-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .service-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: #fff;
+            letter-spacing: 0.04em;
+            margin: 0 0 10px;
+        }
+        .service-card p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ── GALERÍA ── */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 280px 280px;
+            gap: 6px;
+        }
+        .gallery-img {
+            overflow: hidden;
+            border-radius: 4px;
+        }
+        .gallery-img.tall { grid-row: span 2; }
+        .gallery-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .gallery-img:hover img { transform: scale(1.04); }
+
+        /* ── CTA ── */
+        .cta-section {
+            background: #0098DB;
+            padding: 60px 5%;
+            text-align: center;
+        }
+        .cta-section h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(36px, 5vw, 60px);
+            color: #fff;
+            letter-spacing: 0.02em;
+            margin: 0 0 16px;
+        }
+        .cta-section p {
+            color: rgba(255,255,255,0.85);
+            font-size: 16px;
+            margin: 0 0 28px;
+        }
+        .btn-white {
+            display: inline-block;
+            background: #fff;
+            color: #0098DB;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 14px 36px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: transform 0.15s, opacity 0.2s;
+        }
+        .btn-white:hover { transform: translateY(-2px); opacity: 0.92; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 640px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .gallery-img.tall { grid-row: span 1; height: 260px; }
+            .gallery-img { height: 200px; }
+            .stat-item { min-width: 120px; }
+        }
+    </style>
 </head>
 <body>
 
     <!-- Encabezado -->
     <header>
-        <img class="logo" src="../Mitre - Futbol 5/img/logo.jpeg" alt="Logo" >
+        <a href="index.html"><img class="logo" src="img/logo-Photoroom.png" alt="Mitre Fútbol 5"></a>
         <nav>
             <ul>
-                <li><a href="../Mitre - Futbol 5/pages/Nosotros.html">Nosotros</a></li>
-                <li><a href="../Mitre - Futbol 5/pages/Reservas.html">Reservas</a></li>
-                <li><a href="../Mitre - Futbol 5/pages/Escuelita.html">Escuelita</a></li>
-                <li><a href="../Mitre - Futbol 5/pages/Cumpleaños.html">Cumpleaños</a></li>
-                <li><a href="../Mitre - Futbol 5/pages/Instalaciones.html">Instalaciones</a></li>
-                <li><a href="../Mitre - Futbol 5/pages/Ubicacion.html">Ubicacion</a></li>
-                <li><a href="../Mitre - Futbol 5/pages/Contacto.html">Contacto</a></li>
+                <li><a href="Nosotros.html">Nosotros</a></li>
+<li><a href="Reservas.html">Reservas</a></li>
+<li><a href="Escuelita.html">Escuelita</a></li>
+<li><a href="Cumpleaños.html">Cumpleaños</a></li>
+<li><a href="Instalaciones.html">Instalaciones</a></li>
+<li><a href="Ubicacion.html">Ubicación</a></li>
+<li><a href="Contacto.html">Contacto</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Sección Principal -->
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-badge">Santa Fe · Mitre 6154</span>
+            <h1>MITRE<br><span>FÚTBOL 5</span></h1>
+            <div class="hero-btns">
+                <a href="Reservas.html" class="btn-primary">Reservar turno</a>
+                <a href="Instalaciones.html" class="btn-ghost">Ver instalaciones</a>
+            </div>
+        </div>
+    </section>
 
-    <main>
-        <h1>Bienvenidos</h1>
-        <img class="main-img" src="../Mitre - Futbol 5/img/cancha desde abajo.jpeg" alt="">
-    </main>
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-num">1</div>
+            <div class="stat-label">Canchas techadas</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">6</div>
+            <div class="stat-label">Días a la semana</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">1+</div>
+            <div class="stat-label">Años de experiencia</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Césped sintético</div>
+        </div>
+    </div>
+
+    <!-- SERVICIOS -->
+    <section class="section section-dark">
+        <div class="section-tag">Lo que ofrecemos</div>
+        <div class="section-title">TODO LO QUE<br>NECESITÁS</div>
+        <div class="services-grid">
+            <div class="service-card">
+                <span class="service-icon">⚽</span>
+                <h3>Alquiler de canchas</h3>
+                <p>Turnos disponibles de lunes a sábados. Cancha techadas con césped sintético de primera.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🏆</span>
+                <h3>Escuelita de fútbol</h3>
+                <p>Clases para chicos con entrenadores profesionales. Aprendé y divertite.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🎂</span>
+                <h3>Cumpleaños</h3>
+                <p>Festejá tu cumpleaños jugando al fútbol. Espacio para comidas incluido.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🔥</span>
+                <h3>Parrilla & patio</h3>
+                <p>Patio con parrilla y mesas para después del partido. El asado no falta.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERÍA -->
+    <section class="section section-light">
+        <div class="section-tag">Instalaciones</div>
+        <div class="section-title">CONOCÉ<br>LA CANCHA</div>
+        <div class="gallery-grid">
+            <div class="gallery-img tall">
+                <img src="img/cancha desde abajo.jpeg" alt="Cancha de Mitre Fútbol 5">
+            </div>
+            <div class="gallery-img">
+                <img src="img/frente1.jpeg" alt="Frente de Mitre Fútbol 5">
+            </div>
+            <div class="gallery-img">
+                <img src="img/patio.jpeg" alt="Patio y parrilla">
+            </div>
+        </div>
+        <div style="text-align:center; margin-top: 28px;">
+            <a href="Instalaciones.html" class="btn-primary">Ver todas las fotos</a>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>¿LISTO PARA JUGAR?</h2>
+        <p>Reservá tu turno fácil y rápido. Te esperamos en Mitre 6154, Santa Fe.</p>
+        <a href="https://wa.me/5493425672821" target="_blank" class="btn-white">Reservar por WhatsApp</a>
+    </section>
 
     <!-- Pie de página -->
     <footer class="footer">
         <div class="footer-logo">
-          <img src="img/logo-Photoroom.png" alt="Logo Mitre Fútbol 5">
+            <img src="img/logo-Photoroom.png" alt="Logo Mitre Fútbol 5">
         </div>
-      
         <div class="footer-section">
-          <h3>Contacto</h3>
-          <p><a href="tel:+543424123456">📞 +549 (342) 567-2821</a></p>
-          <p><a href="mailto:futbol5mitre@gmail.com">✉️ futbol5mitre@gmail.com</a></p>
+            <h3>Contacto</h3>
+            <p><a href="tel:+5493425672821">📞 +549 (342) 567-2821</a></p>
+            <p><a href="mailto:futbol5mitre@gmail.com">✉️ futbol5mitre@gmail.com</a></p>
         </div>
-      
         <div class="footer-section">
-          <h3>Ubicación</h3>
-          <p>📍 Mitre 6154, Santa Fe</p>
-          <p><a href="https://maps.app.goo.gl/z2JUxcrL94m63BbeA" target="_blank">Ver en Google Maps</a></p>
+            <h3>Ubicación</h3>
+            <p>📍 Mitre 6154, Santa Fe</p>
+            <p><a href="https://maps.app.goo.gl/z2JUxcrL94m63BbeA" target="_blank">Ver en Google Maps</a></p>
         </div>
-      
         <div class="footer-section">
-          <h3>Instagram</h3>
-          <a href="https://www.instagram.com/mitrefutbol5_/" target="_blank" aria-label="Instagram">
-            <img src="img/logo insta-Photoroom.png" alt="Instagram" class="social-icon">
-          </a>
+            <h3>Instagram</h3>
+            <a href="https://www.instagram.com/mitrefutbol5_/" target="_blank" aria-label="Instagram">
+                <img src="img/logo insta-Photoroom.png" alt="Instagram" class="social-icon">
+            </a>
         </div>
-      </footer>
-      
+    </footer>
 
 </body>
 </html>
